@@ -1,7 +1,7 @@
 package ni.edu.uam.bibliotecaapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.List;
 
@@ -10,9 +10,6 @@ import java.util.List;
  * Un autor puede tener múltiples libros.
  */
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Autor {
 
     /**
@@ -23,7 +20,7 @@ public class Autor {
     private Long id;
 
     /**
-     * Nombre completo del autor.
+     * Nombre del autor.
      */
     private String nombre;
 
@@ -34,8 +31,54 @@ public class Autor {
 
     /**
      * Lista de libros asociados al autor.
-     * Relación OneToMany con la entidad Libro.
      */
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("autor")
     private List<Libro> libros;
+
+    // Constructor vacío requerido por JPA/Jackson
+    public Autor() {
+    }
+
+    // Constructor con parámetros
+    public Autor(Long id, String nombre, String nacionalidad, List<Libro> libros) {
+        this.id = id;
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+        this.libros = libros;
+    }
+
+    // Getters y Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public List<Libro> getLibros() {
+        return libros;
+    }
+
+    public void setLibros(List<Libro> libros) {
+        this.libros = libros;
+    }
 }
